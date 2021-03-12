@@ -3,12 +3,10 @@
 page_title: "dynatrace_management_zone Data Source - terraform-provider-dynatrace"
 subcategory: ""
 description: |-
-Use this data source to get information about a specific management zone in dynatrace that already exists
+  Use this data source to get information about a specific management zone in dynatrace that already exists
 ---
 
 # dynatrace_management_zone (Data Source)
-
-Use this data source to get information about a specific management zone in dynatrace that already exists
 
 ## Example Usage
 

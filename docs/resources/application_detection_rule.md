@@ -3,12 +3,10 @@
 page_title: "dynatrace_application_detection_rule Resource - terraform-provider-dynatrace"
 subcategory: ""
 description: |-
-Provides a dynatrace application detection rule resource. It allows to create, update, delete application detection rules in a dynatrace environment. [Applications detection rules API]
+  Provides a dynatrace application detection rule resource. It allows to create, update, delete application detection rules in a dynatrace environment. [Applications detection rules API]
 ---
 
 # dynatrace_application_detection_rule (Resource)
-
-Provides a dynatrace application detection rule resource. It allows to create, update, delete application detection rules in a dynatrace environment. [Applications detection rules API]
 
 ## Example Usage
 
@@ -55,4 +53,4 @@ Dynatrace management zones can be imported using their ID, e.g.
 $ terraform import dynatrace_application_detection_rule.carts_prod 7fac4f81-ef33-4555-8716-f05784329159
 ```
 
-[Applications detection rules API]: (https://www.dynatrace.com/support/help/dynatrace-api/configuration-api/rum/application-detection-configuration/)
+[Applications detection rules API]: https://www.dynatrace.com/support/help/dynatrace-api/configuration-api/rum/application-detection-configuration/

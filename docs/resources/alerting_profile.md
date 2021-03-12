@@ -3,12 +3,10 @@
 page_title: "dynatrace_alerting_profile Resource - terraform-provider-dynatrace"
 subcategory: ""
 description: |-
-Provides a dynatrace alerting profile resource. It allows to create, update, delete alerting profiles in a dynatrace environment. [Alerting profiles API]
+  Provides a dynatrace alerting profile resource. It allows to create, update, delete alerting profiles in a dynatrace environment.
 ---
 
 # dynatrace_alerting_profile (Resource)
-
-Provides a dynatrace alerting profile resource. It allows to create, update, delete alerting profiles in a dynatrace environment. [Alerting profiles API]
 
 ## Example Usage
 
@@ -161,5 +159,3 @@ Dynatrace alerting profiles can be imported using their ID, e.g.
 ```hcl
 $ terraform import dynatrace_alerting_profile.keptn dc228252-2b3d-43ec-b6c5-7bd231adeb6e
 ```
-
-[Alerting profiles API]: (https://www.dynatrace.com/support/help/dynatrace-api/configuration-api/alerting-profiles-api/post-profile/)

@@ -42,9 +42,9 @@ test: fmtcheck
 		xargs -t -n4 go test -v $(TESTARGS) -timeout=30s -parallel=4
 
 testacc: fmtcheck
-	mkdir -p ~/.terraform.d/plugins/dynatrace.com/com/dynatrace/1.0.0/$(OS_ARCH)
+	mkdir -p ~/.terraform.d/plugins/dynatrace.com/com/dynatrace/1.0.1/$(OS_ARCH)
 	go clean -cache
-	go build -o ~/.terraform.d/plugins/dynatrace.com/com/dynatrace/1.0.0/$(OS_ARCH)/terraform-provider-dynatrace_1.0.0_$(OS_ARCH)
+	go build -o ~/.terraform.d/plugins/dynatrace.com/com/dynatrace/1.0.1/$(OS_ARCH)/terraform-provider-dynatrace_1.0.1_$(OS_ARCH)
 	TF_ACC=1 go test $(TEST) -v $(TESTARGS) -timeout 120m
 
 test-compile:

@@ -3,12 +3,10 @@
 page_title: "dynatrace_management_zone Resource - terraform-provider-dynatrace"
 subcategory: ""
 description: |-
-  Provides a dynatrace management zone resource. It allows to create, update, delete management zones in a dynatrace environment. [Management Zones API]
+  Provides a dynatrace management zone resource. It allows to create, update, delete management zones in a dynatrace environment. 
 ---
 
 # dynatrace_management_zone (Resource)
-
-Provides a dynatrace management zone resource. It allows to create, update, delete management zones in a dynatrace environment. [Management Zones API]
 
 ## Example Usage
 
@@ -159,5 +157,3 @@ Dynatrace management zones can be imported using their ID, e.g.
 ```hcl
 $ terraform import dynatrace_management_zone.keptn_carts -4638826838889583423
 ```
-
-[Management Zones API]: (https://www.dynatrace.com/support/help/dynatrace-api/configuration-api/management-zones-api/)

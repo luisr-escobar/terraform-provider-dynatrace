@@ -3,12 +3,10 @@
 page_title: "dynatrace_maintenance_window Resource - terraform-provider-dynatrace"
 subcategory: ""
 description: |-
-  Provides a dynatrace maintenance window resource. It allows to create, update, delete maintenance windows in a dynatrace environment. [Maintenance Windows API]
+  Provides a dynatrace maintenance window resource. It allows to create, update, delete maintenance windows in a dynatrace environment.
 ---
 
 # dynatrace_maintenance_window (Resource)
-
-Provides a dynatrace maintenance window resource. It allows to create, update, delete maintenance windows in a dynatrace environment. [Maintenance Windows API]
 
 ## Example Usage
 
@@ -136,5 +134,3 @@ Dynatrace maintenance windows can be imported using their ID, e.g.
 ```hcl
 $ terraform import dynatrace_maintenance_window.linux_updates -4638826838889583423
 ```
-
-[Maintenance Windows API]: (https://www.dynatrace.com/support/help/dynatrace-api/configuration-api/maintenance-windows-api/)

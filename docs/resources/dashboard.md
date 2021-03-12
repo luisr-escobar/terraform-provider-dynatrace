@@ -3,12 +3,10 @@
 page_title: "dynatrace_dashboard Resource - terraform-provider-dynatrace"
 subcategory: ""
 description: |-
- Provides a dynatrace dashboard resource. It allows to create, update, delete dashboards in a dynatrace environment. [Dashboards API] 
+ Provides a dynatrace dashboard resource. It allows to create, update, delete dashboards in a dynatrace environment.
 ---
 
 # dynatrace_dashboard (Resource)
-
-Provides a dynatrace dashboard resource. It allows to create, update, delete dashboards in a dynatrace environment. [Dashboards API]
 
 ## Example Usage
 
@@ -373,5 +371,3 @@ Dynatrace dashboards can be imported using their ID, e.g.
 ```hcl
 $ terraform import dynatrace_dashboard.my_dashboard 4aa520d-c9e1-4a5a-9a5a-3fd27f3a79e8
 ```
-
-[Dashboards API]: https://www.dynatrace.com/support/help/dynatrace-api/configuration-api/dashboards-api/
