@@ -3,12 +3,10 @@
 page_title: "dynatrace_auto_tag Resource - terraform-provider-dynatrace"
 subcategory: ""
 description: |-
-  Provides a dynatrace auto-tag resource. It allows to create, update, delete auto tags in a dynatrace environment. [Auto Tag API]
+  Provides a dynatrace auto-tag resource. It allows to create, update, delete auto tags in a dynatrace environment.
 ---
 
 # dynatrace_auto_tag (Resource)
-
-Provides a dynatrace auto-tag resource. It allows to create, update, delete auto tags in a dynatrace environment. [Auto Tag API]
 
 ## Example Usage
 
@@ -138,5 +136,3 @@ Dynatrace auto tags can be imported using their ID, e.g.
 ```hcl
 $ terraform import dynatrace_auto_tag.iis_app 2dde1bb2-133a-43ab-aac4-ef2b480a58b9
 ```
-
-[Auto Tag API]: (https://www.dynatrace.com/support/help/dynatrace-api/configuration-api/automatically-applied-tags-api/)

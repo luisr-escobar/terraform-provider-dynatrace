@@ -3,12 +3,10 @@
 page_title: "dynatrace_web_application Resource - terraform-provider-dynatrace"
 subcategory: ""
 description: |-
-Provides a dynatrace web application resource. It allows to create, update, delete notifications in a dynatrace environment. [Web Application API]
+    Provides a dynatrace web application resource. It allows to create, update, delete notifications in a dynatrace environment. [Web Application API]
 ---
 
 # dynatrace_web_application (Resource)
-
-Provides a dynatrace web application resource. It allows to create, update, delete web applicatons in a dynatrace environment. [Web application configuration API]
 
 ## Example Usage
 
@@ -700,5 +698,3 @@ Dynatrace alerting profiles can be imported using their ID, e.g.
 ```hcl
 $ terraform import dynatrace_web_application.carts APPLICATION-2022F8F57D77F3F8
 ```
-
-[Web application configuration API]: (https://www.dynatrace.com/support/help/dynatrace-api/configuration-api/rum/web-application-configuration-api/)

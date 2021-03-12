@@ -70,7 +70,7 @@ func expandTagFilter(tagFilter []interface{}) dynatraceConfigV1.AlertingProfileT
 		dtAlertingProfileTagFilter.SetIncludeMode(includeMode)
 	}
 
-	if tagFilters, ok := m["tag_filters"].([]interface{}); ok {
+	if tagFilters, ok := m["tag_filter"].([]interface{}); ok {
 		dtAlertingProfileTagFilter.SetTagFilters(expandAlertingProfileTagFilters(tagFilters))
 	}
 

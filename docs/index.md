@@ -18,10 +18,10 @@ The [dynatrace] provider is used to interact with the resources supported by dyn
 
 ```hcl
     terraform {
-        required_version = "~> 0.13.0"
+        required_version = ">= 0.13.0"
         required_providers {
             dynatrace = {
-                version = "1.0.0"
+                version = "1.0.1"
                 source = "dynatrace.com/com/dynatrace"
             }
         }

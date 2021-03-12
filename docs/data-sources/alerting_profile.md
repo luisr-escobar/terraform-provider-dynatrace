@@ -3,12 +3,10 @@
 page_title: "dynatrace_alerting_profile Data Source - terraform-provider-dynatrace"
 subcategory: ""
 description: |-
-Use this data source to get information about a specific alerting profile in dynatrace that already exists
+  Use this data source to get information about a specific alerting profile in dynatrace that already exists
 ---
 
 # dynatrace_alerting_profile (Data Source)
-
-Use this data source to get information about a specific alerting profile in dynatrace that already exists
 
 ## Example Usage
 

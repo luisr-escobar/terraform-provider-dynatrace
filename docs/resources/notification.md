@@ -3,13 +3,11 @@
 page_title: "dynatrace_notification Resource - terraform-provider-dynatrace"
 subcategory: ""
 description: |-
-  Provides a dynatrace notification resource. It allows to create, update, delete notifications in a dynatrace environment. [Notification API]
-
+  Provides a dynatrace notification resource. It allows to create, update, delete notifications in a dynatrace environment.
 ---
 
 # dynatrace_notification (Resource)
 
-Provides a dynatrace notification resource. It allows to create, update, delete notifications in a dynatrace environment. [Notification API]
 
 Since there is not a response body upon creation/update of a notification from the API, the `name` and `type` values are used to set the notification ID.
 
@@ -108,5 +106,3 @@ Dynatrace notifications can be imported using their ID, e.g.
 ```hcl
 $ terraform import dynatrace_notification.email 2dde1bb2-133a-43ab-aac4-ef2b480a58b9
 ```
-
-[Notifications API]: (https://www.dynatrace.com/support/help/dynatrace-api/configuration-api/notifications-api/)
