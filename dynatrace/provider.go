@@ -6,6 +6,7 @@ import (
 	"net/url"
 
 	dynatraceConfigV1 "github.com/dynatrace-ace/dynatrace-go-api-client/api/v1/config/dynatrace"
+	dynatraceClusterV2 "github.com/dynatrace-ace/dynatrace-go-api-client/api/v2/cluster/dynatrace"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -18,6 +19,17 @@ func Provider() *schema.Provider {
 				Type:        schema.TypeString,
 				Optional:    true,
 				DefaultFunc: schema.EnvDefaultFunc("DYNATRACE_ENV_URL", nil),
+			},
+			"dt_cluster_url": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				DefaultFunc: schema.EnvDefaultFunc("DYNATRACE_CLUSTER_URL", nil),
+			},
+			"dt_cluster_api_token": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Sensitive:   true,
+				DefaultFunc: schema.EnvDefaultFunc("DYNATRACE_CLUSTER_API_TOKEN", nil),
 			},
 			"dt_api_token": {
 				Type:        schema.TypeString,
@@ -35,6 +47,7 @@ func Provider() *schema.Provider {
 			"dynatrace_notification":               resourceDynatraceNotification(),
 			"dynatrace_web_application":            resourceDynatraceWebApplication(),
 			"dynatrace_application_detection_rule": resourceDynatraceApplicationDetectionRule(),
+			"dynatrace_environment":                resourceDynatraceEnvironment(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"dynatrace_alerting_profile": dataSourceDynatraceAlertingProfile(),
@@ -51,13 +64,17 @@ func Provider() *schema.Provider {
 
 // ProviderConfiguration stores the Dynatrace API client
 type ProviderConfiguration struct {
-	DynatraceConfigClientV1 *dynatraceConfigV1.APIClient
-	AuthConfigV1            context.Context
+	DynatraceConfigClientV1  *dynatraceConfigV1.APIClient
+	DynatraceClusterClientV2 *dynatraceClusterV2.APIClient
+	AuthConfigV1             context.Context
+	authClusterV2            context.Context
 }
 
 func providerConfigure(ctx context.Context, d *schema.ResourceData, terraformVersion string) (interface{}, diag.Diagnostics) {
 	dtEnvURL := d.Get("dt_env_url").(string)
+	dtClusterURL := d.Get("dt_cluster_url").(string)
 	apiToken := d.Get("dt_api_token").(string)
+	clusterApiToken := d.Get("dt_cluster_api_token").(string)
 
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
@@ -66,7 +83,16 @@ func providerConfigure(ctx context.Context, d *schema.ResourceData, terraformVer
 	if err != nil {
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
-			Summary:  "Invalid dynatrace URL",
+			Summary:  "Invalid Dynatrace Environment URL",
+			Detail:   err.Error(),
+		})
+	}
+
+	parsedDTClusterUrl, err := url.Parse(dtClusterURL)
+	if err != nil {
+		diags = append(diags, diag.Diagnostic{
+			Severity: diag.Error,
+			Summary:  "Invalid Dynatrace Cluster URL",
 			Detail:   err.Error(),
 		})
 	}
@@ -91,9 +117,31 @@ func providerConfigure(ctx context.Context, d *schema.ResourceData, terraformVer
 	configV1 := dynatraceConfigV1.NewConfiguration()
 	dynatraceConfigClientV1 := dynatraceConfigV1.NewAPIClient(configV1)
 
+	// Initialize the Dynatrace Cluster V2 API client
+	authClusterV2 := context.WithValue(
+		context.Background(),
+		dynatraceClusterV2.ContextAPIKeys,
+		map[string]dynatraceClusterV2.APIKey{
+			"Api-Token": {
+				Key:    clusterApiToken,
+				Prefix: "Api-Token",
+			},
+		},
+	)
+
+	authClusterV2 = context.WithValue(authClusterV2, dynatraceClusterV2.ContextServerVariables, map[string]string{
+		"name":     string(parsedDTClusterUrl.Host),
+		"protocol": string(parsedDTClusterUrl.Scheme),
+	})
+
+	clusterV2 := dynatraceClusterV2.NewConfiguration()
+	dynatraceClusterClientV2 := dynatraceClusterV2.NewAPIClient(clusterV2)
+
 	return &ProviderConfiguration{
-		DynatraceConfigClientV1: dynatraceConfigClientV1,
-		AuthConfigV1:            authConfigV1,
+		DynatraceConfigClientV1:  dynatraceConfigClientV1,
+		DynatraceClusterClientV2: dynatraceClusterClientV2,
+		AuthConfigV1:             authConfigV1,
+		authClusterV2:            authClusterV2,
 	}, diags
 
 }
@@ -102,6 +150,10 @@ func getErrorMessage(err error) string {
 	var errorMessage string
 
 	if apiErr, ok := err.(dynatraceConfigV1.GenericOpenAPIError); ok {
+		return fmt.Sprintf("%v: %s", err, apiErr.Body())
+	}
+
+	if apiErr, ok := err.(dynatraceClusterV2.GenericOpenAPIError); ok {
 		return fmt.Sprintf("%v: %s", err, apiErr.Body())
 	}
 
