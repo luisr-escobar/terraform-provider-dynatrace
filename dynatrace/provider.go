@@ -52,6 +52,7 @@ func Provider() *schema.Provider {
 			"dynatrace_environment":                resourceDynatraceEnvironment(),
 			"dynatrace_api_token":                  resourceDynatraceApiToken(),
 			"dynatrace_cluster_user":               resourceDynatraceClusterUser(),
+			"dynatrace_cluster_user_group":         resourceDynatraceClusterUserGroup(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"dynatrace_alerting_profile": dataSourceDynatraceAlertingProfile(),
