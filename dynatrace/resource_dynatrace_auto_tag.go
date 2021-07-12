@@ -2,9 +2,6 @@ package dynatrace
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
-	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -80,13 +77,6 @@ func resourceDynatraceAutoTagCreate(ctx context.Context, d *schema.ResourceData,
 	if err != nil {
 		return diag.FromErr(err)
 	}
-
-	autoTagBody, err := json.Marshal(at)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	log.Printf("[DEBUG] AUTOTAG JSON BODY IS \n %s \n \n", autoTagBody)
 
 	autoTag, _, err := dynatraceConfigClientV1.AutomaticallyAppliedTagsApi.CreateAutoTag(authConfigV1).AutoTag(*at).Execute()
 	if err != nil {
