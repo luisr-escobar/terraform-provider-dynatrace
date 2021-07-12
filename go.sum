@@ -73,6 +73,8 @@ github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ3
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/dynatrace-ace/dynatrace-go-api-client/api/v1/cluster/dynatrace v0.0.0-20210710142934-a5a363877d68 h1:5uXffu/zpN/wrFTPYnKQ7oM9IJZcF9m/f8adpVfYDqM=
+github.com/dynatrace-ace/dynatrace-go-api-client/api/v1/cluster/dynatrace v0.0.0-20210710142934-a5a363877d68/go.mod h1:+mV28m9aJLCgoWJ3xomScOukntTSkVBYWPpASahyIE8=
 github.com/dynatrace-ace/dynatrace-go-api-client/api/v1/config/dynatrace v0.0.0-20210224231622-f7713c7b0481 h1:KLmwo+HHdW5S+WY184zI7NufIvqonVIOph4nTDBzCcM=
 github.com/dynatrace-ace/dynatrace-go-api-client/api/v1/config/dynatrace v0.0.0-20210224231622-f7713c7b0481/go.mod h1:PK7dSkvBYQU9FIJTs5AXg4aCXPdEAkNVG69SrP1Y+V8=
 github.com/dynatrace-ace/dynatrace-go-api-client/api/v2/cluster/dynatrace v0.0.0-20210707202240-79bd90863016 h1:mINoISslWUzLyvNOz57CvLG5CZvkBWf61nrW61iQYGw=
