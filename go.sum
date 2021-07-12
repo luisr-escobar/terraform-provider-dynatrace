@@ -77,6 +77,8 @@ github.com/dynatrace-ace/dynatrace-go-api-client/api/v1/config/dynatrace v0.0.0-
 github.com/dynatrace-ace/dynatrace-go-api-client/api/v1/config/dynatrace v0.0.0-20210224231622-f7713c7b0481/go.mod h1:PK7dSkvBYQU9FIJTs5AXg4aCXPdEAkNVG69SrP1Y+V8=
 github.com/dynatrace-ace/dynatrace-go-api-client/api/v2/cluster/dynatrace v0.0.0-20210707202240-79bd90863016 h1:mINoISslWUzLyvNOz57CvLG5CZvkBWf61nrW61iQYGw=
 github.com/dynatrace-ace/dynatrace-go-api-client/api/v2/cluster/dynatrace v0.0.0-20210707202240-79bd90863016/go.mod h1:a5feFzGwW4OyDlmwXOaQryhbhKsWJm9YjZRYC09D+xs=
+github.com/dynatrace-ace/dynatrace-go-api-client/api/v2/environment/dynatrace v0.0.0-20210710142934-a5a363877d68 h1:EjGrlymSY9VNND3jWcp1Y4BQS/Zg61NKsdZbufMLeEw=
+github.com/dynatrace-ace/dynatrace-go-api-client/api/v2/environment/dynatrace v0.0.0-20210710142934-a5a363877d68/go.mod h1:V6ElVCgOSmxV2IXrRjQVCCZZw8g0E1mW+ql+9E4V4aQ=
 github.com/emirpasic/gods v1.12.0 h1:QAUIPSaCu4G+POclxeqb3F+WPpdKqFGlw36+yOzGlrg=
 github.com/emirpasic/gods v1.12.0/go.mod h1:YfzfFFoVP/catgzJb4IKIqXjX78Ha8FMSDh3ymbK86o=
 github.com/envoyproxy/go-control-plane v0.9.0/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=

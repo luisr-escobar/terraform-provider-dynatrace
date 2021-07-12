@@ -7,6 +7,7 @@ import (
 
 	dynatraceConfigV1 "github.com/dynatrace-ace/dynatrace-go-api-client/api/v1/config/dynatrace"
 	dynatraceClusterV2 "github.com/dynatrace-ace/dynatrace-go-api-client/api/v2/cluster/dynatrace"
+	dynatraceEnvironmentV2 "github.com/dynatrace-ace/dynatrace-go-api-client/api/v2/environment/dynatrace"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -48,6 +49,7 @@ func Provider() *schema.Provider {
 			"dynatrace_web_application":            resourceDynatraceWebApplication(),
 			"dynatrace_application_detection_rule": resourceDynatraceApplicationDetectionRule(),
 			"dynatrace_environment":                resourceDynatraceEnvironment(),
+			"dynatrace_api_token":                  resourceDynatraceApiToken(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"dynatrace_alerting_profile": dataSourceDynatraceAlertingProfile(),
@@ -64,10 +66,12 @@ func Provider() *schema.Provider {
 
 // ProviderConfiguration stores the Dynatrace API client
 type ProviderConfiguration struct {
-	DynatraceConfigClientV1  *dynatraceConfigV1.APIClient
-	DynatraceClusterClientV2 *dynatraceClusterV2.APIClient
-	AuthConfigV1             context.Context
-	authClusterV2            context.Context
+	DynatraceConfigClientV1      *dynatraceConfigV1.APIClient
+	DynatraceClusterClientV2     *dynatraceClusterV2.APIClient
+	DynatraceEnvironmentClientV2 *dynatraceEnvironmentV2.APIClient
+	AuthConfigV1                 context.Context
+	AuthClusterV2                context.Context
+	AuthEnvironmentV2            context.Context
 }
 
 func providerConfigure(ctx context.Context, d *schema.ResourceData, terraformVersion string) (interface{}, diag.Diagnostics) {
@@ -110,7 +114,7 @@ func providerConfigure(ctx context.Context, d *schema.ResourceData, terraformVer
 	)
 
 	authConfigV1 = context.WithValue(authConfigV1, dynatraceConfigV1.ContextServerVariables, map[string]string{
-		"name":     string(parsedDTUrl.Host),
+		"name":     string(parsedDTUrl.Host + parsedDTUrl.Path),
 		"protocol": string(parsedDTUrl.Scheme),
 	})
 
@@ -137,11 +141,33 @@ func providerConfigure(ctx context.Context, d *schema.ResourceData, terraformVer
 	clusterV2 := dynatraceClusterV2.NewConfiguration()
 	dynatraceClusterClientV2 := dynatraceClusterV2.NewAPIClient(clusterV2)
 
+	// Initialize the Dynatrace Environment V2 API client
+	authEnvironmentV2 := context.WithValue(
+		context.Background(),
+		dynatraceEnvironmentV2.ContextAPIKeys,
+		map[string]dynatraceEnvironmentV2.APIKey{
+			"Api-Token": {
+				Key:    apiToken,
+				Prefix: "Api-Token",
+			},
+		},
+	)
+
+	authEnvironmentV2 = context.WithValue(authEnvironmentV2, dynatraceEnvironmentV2.ContextServerVariables, map[string]string{
+		"name":     string(parsedDTUrl.Host + parsedDTUrl.Path),
+		"protocol": string(parsedDTUrl.Scheme),
+	})
+
+	environmentV2 := dynatraceEnvironmentV2.NewConfiguration()
+	dynatraceEnvironmentClientV2 := dynatraceEnvironmentV2.NewAPIClient(environmentV2)
+
 	return &ProviderConfiguration{
-		DynatraceConfigClientV1:  dynatraceConfigClientV1,
-		DynatraceClusterClientV2: dynatraceClusterClientV2,
-		AuthConfigV1:             authConfigV1,
-		authClusterV2:            authClusterV2,
+		DynatraceConfigClientV1:      dynatraceConfigClientV1,
+		DynatraceClusterClientV2:     dynatraceClusterClientV2,
+		DynatraceEnvironmentClientV2: dynatraceEnvironmentClientV2,
+		AuthConfigV1:                 authConfigV1,
+		AuthClusterV2:                authClusterV2,
+		AuthEnvironmentV2:            authEnvironmentV2,
 	}, diags
 
 }
@@ -154,6 +180,10 @@ func getErrorMessage(err error) string {
 	}
 
 	if apiErr, ok := err.(dynatraceClusterV2.GenericOpenAPIError); ok {
+		return fmt.Sprintf("%v: %s", err, apiErr.Body())
+	}
+
+	if apiErr, ok := err.(dynatraceEnvironmentV2.GenericOpenAPIError); ok {
 		return fmt.Sprintf("%v: %s", err, apiErr.Body())
 	}
 
