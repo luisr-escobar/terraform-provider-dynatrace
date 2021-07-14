@@ -145,7 +145,7 @@ func resourceDynatraceEnvironment() *schema.Resource {
 										Description: "Yearly total User sessions environment consumption. Resets each year on license creation date anniversary.",
 										Computed:    true,
 									},
-									"consumed_mobile_sessions_this_year	": &schema.Schema{
+									"consumed_mobile_sessions_this_year": &schema.Schema{
 										Type:        schema.TypeInt,
 										Description: "Yearly Mobile user sessions environment consumption. Resets each year on license creation date anniversary.",
 										Computed:    true,
