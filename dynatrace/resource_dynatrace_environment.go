@@ -44,7 +44,6 @@ func resourceDynatraceEnvironment() *schema.Resource {
 			"api_token": &schema.Schema{
 				Type:        schema.TypeString,
 				Description: "Environment Token",
-				Optional:    true,
 				Computed:    true,
 			},
 			"tags": &schema.Schema{
@@ -53,6 +52,525 @@ func resourceDynatraceEnvironment() *schema.Resource {
 				Optional:    true,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
+				},
+			},
+			"quotas": &schema.Schema{
+				Type:        schema.TypeList,
+				Description: "Environment level consumption and quotas information. Only returned if includeConsumptionInfo or includeUncachedConsumptionInfo param is true. If skipped when editing via PUT method then already set quotas will remain.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"host_units": &schema.Schema{
+							Type:        schema.TypeList,
+							Description: "Host units consumption and quota information on environment level. If skipped when editing via PUT method then already set quota will remain.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"max_limit": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Concurrent environment quota. Not set if unlimited. When updating via PUT method, skipping this field will set quota unlimited.",
+										Optional:    true,
+									},
+									"current_usage": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Current environment usage.",
+										Computed:    true,
+									},
+								},
+							},
+						},
+						"dem_units": &schema.Schema{
+							Type:        schema.TypeList,
+							Description: "DEM units consumption and quota information on environment level. Not set (and not editable) if DEM units is not enabled. If skipped when editing via PUT method then already set quotas will remain.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"consumed_this_month": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Monthly environment consumption. Resets each calendar month.",
+										Computed:    true,
+									},
+									"consumed_this_year": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Yearly environment consumption. Resets each year on license creation date anniversary.",
+										Computed:    true,
+									},
+									"monthly_limit": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Monthly environment quota. Not set if unlimited. When updating via PUT method, skipping this field will set quota unlimited.",
+										Optional:    true,
+									},
+									"annual_limit": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Annual environment quota. Not set if unlimited. When updating via PUT method, skipping this field will set quota unlimited.",
+										Optional:    true,
+									},
+								},
+							},
+						},
+						"user_sessions": &schema.Schema{
+							Type:        schema.TypeList,
+							Description: "User sessions consumption and quota information on environment level. If skipped when editing via PUT method then already set quotas will remain.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"consumed_nobile_sessions_this_month": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Monthly Mobile user sessions environment consumption. Resets each calendar month.",
+										Optional:    true,
+										Computed:    true,
+									},
+									"consumed_user_sessions_with_web_session_replay_this_year": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Yearly Web user sessions with replay environment consumption. Resets each year on license creation date anniversary.",
+										Computed:    true,
+									},
+									"consumed_user_sessions_with_mobile_session_replay_this_month": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Monthly Mobile user sessions with replay environment consumption. Resets each calendar month.",
+										Computed:    true,
+									},
+									"consumed_user_sessions_with_mobile_session_replay_this_year": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Yearly Mobile user sessions with replay environment consumption. Resets each year on license creation date anniversary.",
+										Computed:    true,
+									},
+									"total_consumed_this_month": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Monthly total User sessions environment consumption. Resets each calendar month.",
+										Computed:    true,
+									},
+									"total_consumed_this_year": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Yearly total User sessions environment consumption. Resets each year on license creation date anniversary.",
+										Computed:    true,
+									},
+									"consumed_mobile_sessions_this_year	": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Yearly Mobile user sessions environment consumption. Resets each year on license creation date anniversary.",
+										Computed:    true,
+									},
+									"consumed_user_sessions_with_web_session_replay_this_month": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Monthly Web user sessions with replay environment consumption. Resets each calendar month.",
+										Computed:    true,
+									},
+									"total_monthly_limit": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Monthly total User sessions environment quota. Not set if unlimited. When updating via PUT method, skipping this field will set quota unlimited.",
+										Optional:    true,
+									},
+									"total_annual_limit": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Yearly Web user sessions with replay environment consumption. Resets each year on license creation date anniversary.",
+										Optional:    true,
+									},
+								},
+							},
+						},
+						"session_properties": &schema.Schema{
+							Type:        schema.TypeList,
+							Description: "User session properties consumption information on environment level.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"consumed_this_month": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Monthly environment consumption. Resets each calendar month.",
+										Computed:    true,
+									},
+									"consumed_this_year": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Yearly environment consumption. Resets each year on license creation date anniversary.",
+										Computed:    true,
+									},
+								},
+							},
+						},
+						"synthetic_monitors": &schema.Schema{
+							Type:        schema.TypeList,
+							Description: "Synthetic monitors consumption and quota information on environment level. Not set (and not editable) if neither Synthetic nor DEM units is enabled. If skipped when editing via PUT method then already set quotas will remain.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"consumed_this_month": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Monthly environment consumption. Resets each calendar month.",
+										Computed:    true,
+									},
+									"consumed_this_year": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Yearly environment consumption. Resets each year on license creation date anniversary.",
+										Computed:    true,
+									},
+									"monthly_limit": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Monthly environment quota. Not set if unlimited. When updating via PUT method, skipping this field will set quota unlimited.",
+										Optional:    true,
+									},
+									"annual_limit": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Annual environment quota. Not set if unlimited. When updating via PUT method, skipping this field will set quota unlimited.",
+										Optional:    true,
+									},
+								},
+							},
+						},
+						"custom_metrics": &schema.Schema{
+							Type:        schema.TypeList,
+							Description: "Custom metrics consumption and quota information on environment level. Not set (and not editable) if Custom metrics is not enabled. Not set (and not editable) if Davis data units is enabled. If skipped when editing via PUT method then already set quota will remain.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"max_limit": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Concurrent environment quota. Not set if unlimited. When updating via PUT method, skipping this field will set quota unlimited.",
+										Optional:    true,
+									},
+									"current_usage": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Current environment usage.",
+										Computed:    true,
+									},
+								},
+							},
+						},
+						"davis_data_units": &schema.Schema{
+							Type:        schema.TypeList,
+							Description: "Davis data units consumption and quota information on environment level. Not set (and not editable) if Davis data units is not enabled. If skipped when editing via PUT method then already set quotas will remain.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"consumed_this_month": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Monthly environment consumption. Resets each calendar month.",
+										Computed:    true,
+									},
+									"consumed_this_year": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Yearly environment consumption. Resets each year on license creation date anniversary.",
+										Computed:    true,
+									},
+									"monthly_limit": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Monthly environment quota. Not set if unlimited. When updating via PUT method, skipping this field will set quota unlimited.",
+										Optional:    true,
+									},
+									"annual_limit": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Annual environment quota. Not set if unlimited. When updating via PUT method, skipping this field will set quota unlimited.",
+										Optional:    true,
+									},
+								},
+							},
+						},
+						"log_monitoring": &schema.Schema{
+							Type:        schema.TypeList,
+							Description: "Log monitoring consumption and quota information on environment level. Not set (and not editable) if Log monitoring is not enabled. Not set (and not editable) if Log monitoring is migrated to Davis data on license level. If skipped when editing via PUT method then already set quotas will remain.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"consumed_this_month": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Monthly environment consumption. Resets each calendar month.",
+										Computed:    true,
+									},
+									"consumed_this_year": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Yearly environment consumption. Resets each year on license creation date anniversary.",
+										Computed:    true,
+									},
+									"monthly_limit": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Monthly environment quota. Not set if unlimited. When updating via PUT method, skipping this field will set quota unlimited.",
+										Optional:    true,
+									},
+									"annual_limit": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Annual environment quota. Not set if unlimited. When updating via PUT method, skipping this field will set quota unlimited.",
+										Optional:    true,
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			"storage": &schema.Schema{
+				Type:        schema.TypeList,
+				Description: "Environment level storage usage and limit information. Not returned if includeStorageInfo param is not true. If skipped when editing via PUT method then already set limits will remain.",
+				Optional:    true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"transaction_storage": &schema.Schema{
+							Type:        schema.TypeList,
+							Description: "Transaction storage usage and limit information on environment level. If skipped when editing via PUT method then already set limit will remain.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"retention_reduction_percentage": &schema.Schema{
+										Type:        schema.TypeString,
+										Description: "Percentage of truncation for new data.",
+										Computed:    true,
+									},
+									"retention_reduction_reason": &schema.Schema{
+										Type:        schema.TypeString,
+										Description: "Reason of truncation.",
+										Computed:    true,
+									},
+									"currently_used": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Currently used storage [bytes]",
+										Computed:    true,
+									},
+									"max_limit": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Maximum storage limit [bytes].",
+										Optional:    true,
+									},
+								},
+							},
+						},
+						"session_replay_storage": &schema.Schema{
+							Type:        schema.TypeList,
+							Description: "Session replay storage usage and limit information on environment level. If skipped when editing via PUT method then already set limit will remain.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"retention_reduction_percentage": &schema.Schema{
+										Type:        schema.TypeString,
+										Description: "Percentage of truncation for new data.",
+										Computed:    true,
+									},
+									"retention_reduction_reason": &schema.Schema{
+										Type:        schema.TypeString,
+										Description: "Reason of truncation.",
+										Computed:    true,
+									},
+									"currently_used": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Currently used storage [bytes]",
+										Computed:    true,
+									},
+									"max_limit": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Maximum storage limit [bytes].",
+										Optional:    true,
+									},
+								},
+							},
+						},
+						"symbol_files_from_mobile_apps": &schema.Schema{
+							Type:        schema.TypeList,
+							Description: "Symbol files from mobile apps storage usage and limit information on environment level. If skipped when editing via PUT method then already set limit will remain.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"currently_used": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Currently used storage [bytes]",
+										Computed:    true,
+									},
+									"max_limit": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Maximum storage limit [bytes].",
+										Optional:    true,
+									},
+								},
+							},
+						},
+						"log_monitoring_storage": &schema.Schema{
+							Type:        schema.TypeList,
+							Description: "Log monitoring storage usage and limit information on environment level. Not editable when Log monitoring is not allowed by license or not configured on cluster level. If skipped when editing via PUT method then already set limit will remain.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"currently_used": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Currently used storage [bytes]",
+										Computed:    true,
+									},
+									"max_limit": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Maximum storage limit [bytes].",
+										Optional:    true,
+									},
+								},
+							},
+						},
+						"service_request_level_retention": &schema.Schema{
+							Type:        schema.TypeList,
+							Description: "Service request level retention settings on environment level. Service code level retention time can't be greater than service request level retention time and both can't exceed one year.If skipped when editing via PUT method then already set limit will remain.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"currently_used_in_millis": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Current data age [milliseconds]",
+										Computed:    true,
+									},
+									"currently_used_in_days": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Current data age [days]",
+										Computed:    true,
+									},
+									"max_limit_in_days": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Maximum storage limit [days].",
+										Optional:    true,
+									},
+								},
+							},
+						},
+						"service_code_level_retention": &schema.Schema{
+							Type:        schema.TypeList,
+							Description: "Service code level retention settings on environment level. Service code level retention time can't be greater than service request level retention time and both can't exceed one year.If skipped when editing via PUT method then already set limit will remain.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"currently_used_in_millis": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Current data age [milliseconds]",
+										Computed:    true,
+									},
+									"currently_used_in_days": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Current data age [days]",
+										Computed:    true,
+									},
+									"max_limit_in_days": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Maximum storage limit [days].",
+										Optional:    true,
+									},
+								},
+							},
+						},
+						"real_user_monitoring_retention": &schema.Schema{
+							Type:        schema.TypeList,
+							Description: "Real user monitoring retention settings on environment level. Can be set to any value from 1 to 35 days. If skipped when editing via PUT method then already set limit will remain.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"currently_used_in_millis": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Current data age [milliseconds]",
+										Computed:    true,
+									},
+									"currently_used_in_days": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Current data age [days]",
+										Computed:    true,
+									},
+									"max_limit_in_days": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Maximum storage limit [days].",
+										Optional:    true,
+									},
+								},
+							},
+						},
+						"synthetic_monitoring_retention": &schema.Schema{
+							Type:        schema.TypeList,
+							Description: "Synthetic monitoring retention settings on environment level. Can be set to any value from 1 to 35 days. If skipped when editing via PUT method then already set limit will remain.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"currently_used_in_millis": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Current data age [milliseconds]",
+										Computed:    true,
+									},
+									"currently_used_in_days": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Current data age [days]",
+										Computed:    true,
+									},
+									"max_limit_in_days": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Maximum storage limit [days].",
+										Optional:    true,
+									},
+								},
+							},
+						},
+						"session_replay_retention": &schema.Schema{
+							Type:        schema.TypeList,
+							Description: "Session replay retention settings on environment level. Can be set to any value from 1 to 35 days. If skipped when editing via PUT method then already set limit will remain.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"currently_used_in_millis": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Current data age [milliseconds]",
+										Computed:    true,
+									},
+									"currently_used_in_days": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Current data age [days]",
+										Computed:    true,
+									},
+									"max_limit_in_days": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Maximum storage limit [days].",
+										Optional:    true,
+									},
+								},
+							},
+						},
+						"log_monitoring_retention": &schema.Schema{
+							Type:        schema.TypeList,
+							Description: "Session replay retention settings on environment level. Can be set to any value from 1 to 35 days. If skipped when editing via PUT method then already set limit will remain.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"currently_used_in_millis": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Current data age [milliseconds]",
+										Computed:    true,
+									},
+									"currently_used_in_days": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Current data age [days]",
+										Computed:    true,
+									},
+									"max_limit_in_days": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Maximum storage limit [days].",
+										Optional:    true,
+									},
+								},
+							},
+						},
+						"user_actions_per_minute": &schema.Schema{
+							Type:        schema.TypeList,
+							Description: "Maximum number of user actions generated per minute on environment level. Can be set to any value from 1 to 2147483646 or left unlimited. If skipped when editing via PUT method then already set limit will remain.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"max_limit": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Maximum traffic [units per minute]",
+										Optional:    true,
+									},
+								},
+							},
+						},
+						"transaction_traffic_quota": &schema.Schema{
+							Type:        schema.TypeList,
+							Description: "Maximum number of newly monitored entry point PurePaths captured per process/minute on environment level. Can be set to any value from 100 to 100000. If skipped when editing via PUT method then already set limit will remain.",
+							Optional:    true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"max_limit": &schema.Schema{
+										Type:        schema.TypeInt,
+										Description: "Maximum traffic [units per minute]",
+										Optional:    true,
+									},
+								},
+							},
+						},
+					},
 				},
 			},
 		},
