@@ -21,7 +21,7 @@ The [dynatrace] provider is used to interact with the resources supported by dyn
         required_version = ">= 0.13.0"
         required_providers {
             dynatrace = {
-                version = "1.0.1"
+                version = "1.0.2"
                 source = "dynatrace.com/com/dynatrace"
             }
         }

@@ -40,7 +40,6 @@ func resourceDynatraceClusterUserGroup() *schema.Resource {
 				Type:        schema.TypeBool,
 				Description: "If true, then the group has the manage account rights.",
 				Optional:    true,
-				Default:     true,
 			},
 			"is_access_account": &schema.Schema{
 				Type:        schema.TypeBool,
