@@ -28,7 +28,7 @@ For Terraform version 0.12.x
     terraform {
         required_providers {
             dynatrace = {
-                version = "1.0.1"
+                version = "1.0.2"
             }
         }
     }
@@ -37,9 +37,9 @@ For Terraform version 0.12.x
 For Terraform version 0.13.x
 
 1. Move the binary into the Terraform [plugins directory] for the platform.
-    - Linux: `~/.terraform.d/plugins/dynatrace.com/com/dynatrace/1.0.1/linux_amd64/`
-    - macOS: `~/.terraform.d/plugins/dynatrace.com/com/dynatrace/1.0.1/darwin_amd64/`
-    - Windows: `%APPDATA%\terraform.d\plugins\dynatrace.com\com\dynatrace\1.0.1\windows_amd64\`
+    - Linux: `~/.terraform.d/plugins/dynatrace.com/com/dynatrace/1.0.2/linux_amd64/`
+    - macOS: `~/.terraform.d/plugins/dynatrace.com/com/dynatrace/1.0.2/darwin_amd64/`
+    - Windows: `%APPDATA%\terraform.d\plugins\dynatrace.com\com\dynatrace\1.0.2\windows_amd64\`
 
 1. Add the plug-in provider to the Terraform configuration file.
 
@@ -48,7 +48,7 @@ For Terraform version 0.13.x
         required_version = "~> 0.13.0"
         required_providers {
             dynatrace = {
-                version = "1.0.1"
+                version = "1.0.2"
                 source = "dynatrace.com/com/dynatrace"
             }
         }

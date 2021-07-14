@@ -156,7 +156,7 @@ func resourceDynatraceApplicationDetectionRuleDelete(ctx context.Context, d *sch
 	if err != nil {
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
-			Summary:  "Unable to delete dynatrace  application detection rule",
+			Summary:  "Unable to delete dynatrace application detection rule",
 			Detail:   getErrorMessage(err),
 		})
 		return diags
